@@ -33,14 +33,25 @@ class Database(metaclass=SingletonMeta):
         import secrets
         master_key = secrets.token_urlsafe(32)
         c = self.connect()
-        c.execute("CREATE TABLE IF NOT EXISTS users(username text, password text, client_id text, client_secret text)")
-        c.execute("CREATE TABLE IF NOT EXISTS auth(master_key text)")
-        c.execute("CREATE TABLE IF NOT EXISTS submissions(planned_unix_datetime integer, status text, username text, sub text, title text, text text, link text, image_name text, video text, flairid text, nsfw integer)")
+        Database.create_table(c, 'auth')
+        Database.create_table(c, 'users')
+        Database.create_table(c,'submissions')
 
         c.execute("INSERT INTO auth VALUES(?)",(master_key,))
         self.connection.commit()
         self.disconnect()
         return master_key
+
+    @staticmethod
+    def create_table(c, table_name):
+        if table_name == 'users':
+            c.execute("CREATE TABLE IF NOT EXISTS users(username text, password text, client_id text, client_secret text)")
+        elif table_name == 'submissions':
+            c.execute("CREATE TABLE IF NOT EXISTS submissions(planned_unix_datetime integer, status text, username text, sub text, title text, text text, link text, image_name text, video text, flairid text, nsfw integer, submission_id text)")
+        elif table_name == 'auth':
+            c.execute("CREATE TABLE IF NOT EXISTS auth(master_key text)")
+        else:
+            pass
 
     def is_master_key_correct(self, input_key):
         c = self.connect()
