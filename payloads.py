@@ -1,12 +1,22 @@
 from pydantic import BaseModel
 
-class RedditUserPayload(BaseModel):
+class CustomBaseModel(BaseModel):
+    @classmethod
+    def from_tuple(cls, tpl):
+        return cls(**{k: v for k, v in zip(cls.__fields__.keys(), tpl)})
+
+    @classmethod
+    def from_list(cls, tpl):
+        return cls(**{k: v for k, v in zip(cls.__fields__.keys(), tpl)})
+
+
+class RedditUserPayload(CustomBaseModel):
     username: str
     password: str
     client_id: str
     client_secret: str
 
-class RedditPostPayload(BaseModel):
+class RedditPostPayload(CustomBaseModel):
     username: str
     sub: str
     title: str
