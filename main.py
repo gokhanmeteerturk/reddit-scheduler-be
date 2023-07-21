@@ -1,6 +1,8 @@
 from typing import Union
 
 from fastapi import FastAPI, HTTPException, Request
+from fastapi_utils.tasks import repeat_every
+
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -50,6 +52,21 @@ def create_reddit_user(request: Request, user:RedditUserPayload):
     db.disconnect()
     return {"result":"Success"}
 
+@app.get("/reddit_user/{username}/")
+def read_reddit_user(request: Request, username: str):
+    check_key(request)
+    user = None
+    db = Database()
+    c = db.connect()
+    c.execute("SELECT * FROM users WHERE username = ? ORDER BY rowid ASC LIMIT 1", (username,))
+    user_tuple = c.fetchone()
+    db.disconnect()
+    if user_tuple:
+        user = RedditUserPayload.from_tuple(user_tuple)
+    else:
+        raise HTTPException(status_code=404, detail="Not Found")
+    return user
+
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
@@ -58,6 +75,16 @@ def check_key(request):
     key = request.headers.get('authorization')
     if key is None or not Database().is_master_key_correct(remove_prefix(key,'Basic ')):
         raise HTTPException(status_code=401, detail="Unauthorized")
+
+
+@app.on_event("startup")
+@repeat_every(seconds=30)
+def check_scheduled_submissions():
+    try:
+        # Find and handle scheduled submissions
+        pass
+    except Exception as e:
+        print(e)
 
 def remove_prefix(text, prefix):
     if text.startswith(prefix):
