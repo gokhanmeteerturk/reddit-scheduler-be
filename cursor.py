@@ -35,7 +35,7 @@ class Database(metaclass=SingletonMeta):
         c = self.connect()
         c.execute("CREATE TABLE IF NOT EXISTS users(username text, password text, client_id text, client_secret text)")
         c.execute("CREATE TABLE IF NOT EXISTS auth(master_key text)")
-        # now we will insert a new record:
+        c.execute("CREATE TABLE IF NOT EXISTS submissions(planned_unix_datetime integer, status text, username text, sub text, title text, text text, link text, image_name text, video text, flairid text, nsfw integer)")
 
         c.execute("INSERT INTO auth VALUES(?)",(master_key,))
         self.connection.commit()
