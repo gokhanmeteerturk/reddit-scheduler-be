@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class CustomBaseModel(BaseModel):
     @classmethod
     def from_tuple(cls, tpl):
@@ -15,6 +16,7 @@ class RedditUserPayload(CustomBaseModel):
     password: str
     client_id: str
     client_secret: str
+
 
 class RedditPostPayload(CustomBaseModel):
     username: str
