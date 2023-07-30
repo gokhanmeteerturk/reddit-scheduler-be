@@ -45,6 +45,7 @@ In case you still need a detailed documentation, below you can find a table show
 
 ## API Endpoints
 
+### Users
 | Endpoint | HTTP Method | Description |
 | --- | --- | --- |
 | reddit_users/ | ![GET](https://img.shields.io/badge/GET-blue?style=flat-square)  | Get all saved users |
@@ -52,23 +53,28 @@ In case you still need a detailed documentation, below you can find a table show
 | reddit_users/ | ![POST](https://img.shields.io/badge/POST-forestgreen?style=flat-square) | Save a new user |
 | reddit_users/{USER}/ | ![PUT](https://img.shields.io/badge/PUT-darkgoldenrod?style=flat-square) | Update user information |
 | reddit_users/{USER}/ | ![DELETE](https://img.shields.io/badge/DELETE-firebrick?style=flat-square) | Delete a user |
+
+### Submissions
+| Endpoint | HTTP Method | Description |
+| --- | --- | --- |
 | scheduled_submissions/ | ![GET](https://img.shields.io/badge/GET-blue?style=flat-square) | Get all scheduled submissions |
-| scheduled_submissions/ | ![POST](https://img.shields.io/badge/POST-forestgreen?style=flat-square) | Schedule a new submission |
 | scheduled_submissions/{SUBMISSION_ROWID}/ | ![GET](https://img.shields.io/badge/GET-blue?style=flat-square) | Get details of a specific submission |
+| scheduled_submissions/ | ![POST](https://img.shields.io/badge/POST-forestgreen?style=flat-square) | Schedule a new submission |
 | scheduled_submissions/{SUBMISSION_ROWID}/ | ![PUT](https://img.shields.io/badge/PUT-darkgoldenrod?style=flat-square) | Update a scheduled submission |
 | scheduled_submissions/{SUBMISSION_ROWID}/ | ![DELETE](https://img.shields.io/badge/DELETE-firebrick?style=flat-square) | Delete a scheduled submission |
 
 ---
 
-## API Examples
+## API Parameters, Payloads and Examples
 
 ### 1. Get all saved users
 **HTTP Method:** GET
 **Endpoint:** /reddit_users/
+**Parameters:** page, per_page
 
 **Example:**
 ```bash
-curl -L 'http://127.0.0.1:8080/reddit_users/' \
+curl -L 'http://127.0.0.1:8080/reddit_users/?page=1&per_page=10' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA'
 ```
 
@@ -129,10 +135,11 @@ curl -L -X DELETE 'http://127.0.0.1:8080/reddit_users/spez/' \
 ### 6. Get all scheduled submissions
 **HTTP Method:** GET
 **Endpoint:** /scheduled_submissions/
+**Parameters:** page, per_page
 
 **Example:**
 ```bash
-curl -L 'http://127.0.0.1:8080/scheduled_submissions/' \
+curl -L 'http://127.0.0.1:8080/scheduled_submissions/?page=1&per_page=10' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA'
 ```
 
