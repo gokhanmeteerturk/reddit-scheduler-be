@@ -344,8 +344,6 @@ curl -L -X DELETE 'http://127.0.0.1:8080/scheduled_submissions/1/' \
   </tr>
 </table>
 
-Please note that each subheader has its corresponding table beneath it, and the tables have the required headers as specified.
-
 
 ---
 
