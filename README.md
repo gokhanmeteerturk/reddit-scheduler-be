@@ -4,8 +4,8 @@ A very convenient reddit scheduler backend with support for multiple credentials
 ## WARNING: WORK IN PROGRESS
 ## Development Status
 
-- [x] CRUD operations for owned Reddit user credentials
-- [x] CRUD operations for scheduling submissions
+- [x] ~~CRUD operations for owned Reddit user credentials~~
+- [x] ~~CRUD operations for scheduling submissions~~
 - [ ] Repeating task to trigger submissions on scheduled date (Work in progress)
 - [ ] SSL support (Not started)
 - [ ] Dockerization of the project (Not started)
