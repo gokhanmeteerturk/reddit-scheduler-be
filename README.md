@@ -67,32 +67,73 @@ In case you still need a detailed documentation, below you can find a table show
 
 ## API Parameters, Payloads and Examples
 
-### 1. Get all saved users
-**HTTP Method:** GET
-**Endpoint:** /reddit_users/
-**Parameters:** page, per_page
 
-**Example:**
+Sure, I'll format the entire text as requested:
+
+### 1. Get all saved users
+<table>
+  <tr>
+    <th>HTTP Method</th>
+    <td>GET</td>
+  </tr>
+  <tr>
+    <th>Endpoint</th>
+    <td>/reddit_users/</td>
+  </tr>
+  <tr>
+    <th>Parameters</th>
+    <td>page, per_page</td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td>
+
 ```bash
 curl -L 'http://127.0.0.1:8080/reddit_users/?page=1&per_page=10' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA'
 ```
 
-### 2. Get specific user
-**HTTP Method:** GET
-**Endpoint:** /reddit_users/{USER}/
+   </td>
+  </tr>
+</table>
 
-**Example:**
+### 2. Get specific user
+<table>
+  <tr>
+    <th>HTTP Method</th>
+    <td>GET</td>
+  </tr>
+  <tr>
+    <th>Endpoint</th>
+    <td>/reddit_users/{USER}/</td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td>
+
 ```bash
 curl -L 'http://127.0.0.1:8080/reddit_users/spez/' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA'
 ```
 
-### 3. Create a new user
-**HTTP Method:** POST
-**Endpoint:** /reddit_users/
+   </td>
+  </tr>
+</table>
 
-**Example:**
+### 3. Create a new user
+<table>
+  <tr>
+    <th>HTTP Method</th>
+    <td>POST</td>
+  </tr>
+  <tr>
+    <th>Endpoint</th>
+    <td>/reddit_users/</td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td>
+
 ```bash
 curl -L 'http://127.0.0.1:8080/reddit_users/' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA' \
@@ -105,11 +146,24 @@ curl -L 'http://127.0.0.1:8080/reddit_users/' \
 }'
 ```
 
-### 4. Update user information
-**HTTP Method:** PUT
-**Endpoint:** /reddit_users/{USER}/
+   </td>
+  </tr>
+</table>
 
-**Example:**
+### 4. Update user information
+<table>
+  <tr>
+    <th>HTTP Method</th>
+    <td>PUT</td>
+  </tr>
+  <tr>
+    <th>Endpoint</th>
+    <td>/reddit_users/{USER}/</td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td>
+
 ```bash
 curl -L -X PUT 'http://127.0.0.1:8080/reddit_users/spez/' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA' \
@@ -122,32 +176,74 @@ curl -L -X PUT 'http://127.0.0.1:8080/reddit_users/spez/' \
 }'
 ```
 
-### 5. Delete a user
-**HTTP Method:** DELETE
-**Endpoint:** /reddit_users/{USER}/
+   </td>
+  </tr>
+</table>
 
-**Example:**
+### 5. Delete a user
+<table>
+  <tr>
+    <th>HTTP Method</th>
+    <td>DELETE</td>
+  </tr>
+  <tr>
+    <th>Endpoint</th>
+    <td>/reddit_users/{USER}/</td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td>
+
 ```bash
 curl -L -X DELETE 'http://127.0.0.1:8080/reddit_users/spez/' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA'
 ```
 
-### 6. Get all scheduled submissions
-**HTTP Method:** GET
-**Endpoint:** /scheduled_submissions/
-**Parameters:** page, per_page
+   </td>
+  </tr>
+</table>
 
-**Example:**
+### 6. Get all scheduled submissions
+<table>
+  <tr>
+    <th>HTTP Method</th>
+    <td>GET</td>
+  </tr>
+  <tr>
+    <th>Endpoint</th>
+    <td>/scheduled_submissions/</td>
+  </tr>
+  <tr>
+    <th>Parameters</th>
+    <td>page, per_page</td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td>
+
 ```bash
 curl -L 'http://127.0.0.1:8080/scheduled_submissions/?page=1&per_page=10' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA'
 ```
 
-### 7. Schedule a new submission
-**HTTP Method:** POST
-**Endpoint:** /scheduled_submissions/
+   </td>
+  </tr>
+</table>
 
-**Example:**
+### 7. Schedule a new submission
+<table>
+  <tr>
+    <th>HTTP Method</th>
+    <td>POST</td>
+  </tr>
+  <tr>
+    <th>Endpoint</th>
+    <td>/scheduled_submissions/</td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td>
+
 ```bash
 curl -L 'http://127.0.0.1:8080/scheduled_submissions/' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA' \
@@ -163,21 +259,49 @@ curl -L 'http://127.0.0.1:8080/scheduled_submissions/' \
 }'
 ```
 
-### 8. Get details of a specific submission
-**HTTP Method:** GET
-**Endpoint:** /scheduled_submissions/{SUBMISSION_ROWID}/
+   </td>
+  </tr>
+</table>
 
-**Example:**
+### 8. Get details of a specific submission
+<table>
+  <tr>
+    <th>HTTP Method</th>
+    <td>GET</td>
+  </tr>
+  <tr>
+    <th>Endpoint</th>
+    <td>/scheduled_submissions/{SUBMISSION_ROWID}/</td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td>
+
 ```bash
 curl -L 'http://127.0.0.1:8080/scheduled_submissions/1/' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA'
 ```
 
-### 9. Update a scheduled submission
-**HTTP Method:** PUT
-**Endpoint:** /scheduled_submissions/{SUBMISSION_ROWID}/
+   </td>
+  </tr>
+</table>
 
-**Example:**
+### 9. Update a scheduled submission
+<table>
+  <tr>
+    <th>HTTP Method</th>
+    <td>
+
+PUT</td>
+  </tr>
+  <tr>
+    <th>Endpoint</th>
+    <td>/scheduled_submissions/{SUBMISSION_ROWID}/</td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td>
+
 ```bash
 curl -L -X PUT 'http://127.0.0.1:8080/scheduled_submissions/1/' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA' \
@@ -193,15 +317,35 @@ curl -L -X PUT 'http://127.0.0.1:8080/scheduled_submissions/1/' \
 }'
 ```
 
-### 10. Delete a scheduled submission
-**HTTP Method:** DELETE
-**Endpoint:** /scheduled_submissions/{SUBMISSION_ROWID}/
+   </td>
+  </tr>
+</table>
 
-**Example:**
+### 10. Delete a scheduled submission
+<table>
+  <tr>
+    <th>HTTP Method</th>
+    <td>DELETE</td>
+  </tr>
+  <tr>
+    <th>Endpoint</th>
+    <td>/scheduled_submissions/{SUBMISSION_ROWID}/</td>
+  </tr>
+  <tr>
+    <th>Example</th>
+    <td>
+
 ```bash
 curl -L -X DELETE 'http://127.0.0.1:8080/scheduled_submissions/1/' \
 -H 'Authorization: Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA'
 ```
+
+   </td>
+  </tr>
+</table>
+
+Please note that each subheader has its corresponding table beneath it, and the tables have the required headers as specified.
+
 
 ---
 
