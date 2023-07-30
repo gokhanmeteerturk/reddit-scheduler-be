@@ -47,16 +47,16 @@ In case you still need a detailed documentation, below you can find a table show
 
 | Endpoint | HTTP Method | Description |
 | --- | --- | --- |
-| reddit_users/ | GET | Get all saved users |
-| reddit_users/{USER}/ | GET | Get specific user |
-| reddit_users/ | POST | Save a new user |
-| reddit_users/{USER}/ | PUT | Update user information |
-| reddit_users/{USER}/ | DELETE | Delete a user |
-| scheduled_submissions/ | GET | Get all scheduled submissions |
-| scheduled_submissions/ | POST | Schedule a new submission |
-| scheduled_submissions/{SUBMISSION_ROWID}/ | GET | Get details of a specific submission |
-| scheduled_submissions/{SUBMISSION_ROWID}/ | PUT | Update a scheduled submission |
-| scheduled_submissions/{SUBMISSION_ROWID}/ | DELETE | Delete a scheduled submission |
+| reddit_users/ | ![GET](https://img.shields.io/badge/GET-blue?style=flat-square)  | Get all saved users |
+| reddit_users/{USER}/ | ![GET](https://img.shields.io/badge/GET-blue?style=flat-square) | Get specific user |
+| reddit_users/ | ![POST](https://img.shields.io/badge/POST-forestgreen?style=flat-square) | Save a new user |
+| reddit_users/{USER}/ | ![PUT](https://img.shields.io/badge/PUT-darkgoldenrod?style=flat-square) | Update user information |
+| reddit_users/{USER}/ | ![DELETE](https://img.shields.io/badge/DELETE-firebrick?style=flat-square) | Delete a user |
+| scheduled_submissions/ | ![GET](https://img.shields.io/badge/GET-blue?style=flat-square) | Get all scheduled submissions |
+| scheduled_submissions/ | ![POST](https://img.shields.io/badge/POST-forestgreen?style=flat-square) | Schedule a new submission |
+| scheduled_submissions/{SUBMISSION_ROWID}/ | ![GET](https://img.shields.io/badge/GET-blue?style=flat-square) | Get details of a specific submission |
+| scheduled_submissions/{SUBMISSION_ROWID}/ | ![PUT](https://img.shields.io/badge/PUT-darkgoldenrod?style=flat-square) | Update a scheduled submission |
+| scheduled_submissions/{SUBMISSION_ROWID}/ | ![DELETE](https://img.shields.io/badge/DELETE-firebrick?style=flat-square) | Delete a scheduled submission |
 
 ---
 
