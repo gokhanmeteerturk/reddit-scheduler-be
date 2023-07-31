@@ -108,6 +108,10 @@ curl -L 'http://127.0.0.1:8080/reddit_users/?page=1&per_page=10' \
     <td>/reddit_users/{USER}/</td>
   </tr>
   <tr>
+    <th>Parameters</th>
+    <td>with_crosspostable_subs (bool)</td>
+  </tr>
+  <tr>
     <th>Example</th>
     <td>
 
