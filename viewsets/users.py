@@ -37,7 +37,7 @@ def read_reddit_user(username: str, request: Request, with_crosspostable_subs:bo
         raise HTTPException(status_code=404, detail="Not Found")
     crosspostable_subs = []
     if with_crosspostable_subs:
-        crosspostable_subs = []
+        crosspostable_subs = user_manager.read_crosspostable_subs(username)
     user = RedditUserPayloadWithCrosspostables.from_user_payload(user, crosspostable_subs)
     return user
 
