@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Request
-from typing import List
+from typing import Type
 
 from slowapi import Limiter
 from slowapi.util import get_remote_address
-from payloads import RedditUserPayload, RedditUsersListPayload
+from payloads import RedditUserPayload, RedditUserPayloadWithCrosspostables, RedditUsersListPayload
 from managers.users import UserManager
 from viewsets.helpers import check_key
 
@@ -29,12 +29,16 @@ def list_reddit_users(request: Request, page: int = 1, per_page: int = 10):
     return result
 
 
-@router.get("/{username}/", response_model=RedditUserPayload)
-def read_reddit_user(username: str, request: Request):
+@router.get("/{username}/", response_model=Type[RedditUserPayload])
+def read_reddit_user(username: str, request: Request, with_crosspostable_subs:bool = False):
     check_key(request)
     user = user_manager.read_user(username)
     if not user:
         raise HTTPException(status_code=404, detail="Not Found")
+    crosspostable_subs = []
+    if with_crosspostable_subs:
+        crosspostable_subs = []
+    user = RedditUserPayloadWithCrosspostables.from_user_payload(user, crosspostable_subs)
     return user
 
 

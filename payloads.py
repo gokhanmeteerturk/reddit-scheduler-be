@@ -19,6 +19,20 @@ class RedditUserPayload(CustomBaseModel):
     client_secret: str
 
 
+class RedditUserPayloadWithCrosspostables(RedditUserPayload):
+    crosspostable_subs: List = []
+
+    @classmethod
+    def from_user_payload(
+        cls,
+        user: RedditUserPayload,
+        crosspostable_subs: List = [],
+    ):
+        return cls(
+            **dict(user), crosspostable_subs=crosspostable_subs
+        )
+
+
 class RedditUsersListPayload(BaseModel):
     page: int
     per_page: int
