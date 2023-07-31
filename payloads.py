@@ -19,7 +19,6 @@ class RedditUserPayload(CustomBaseModel):
     client_secret: str
 
 
-
 class RedditUsersListPayload(BaseModel):
     page: int
     per_page: int

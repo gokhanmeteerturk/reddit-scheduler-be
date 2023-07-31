@@ -39,9 +39,7 @@ def read_reddit_user(username: str, request: Request):
 
 
 @router.put("/{username}/", status_code=200)
-def update_reddit_user(
-    username: str, user: RedditUserPayload, request: Request
-):
+def update_reddit_user(username: str, user: RedditUserPayload, request: Request):
     check_key(request)
     existing_user = user_manager.read_user(username)
     if not existing_user:

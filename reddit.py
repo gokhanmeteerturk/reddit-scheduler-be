@@ -21,9 +21,7 @@ class RedditManager:
     def set_user(self, username):
         db = Database()
         c = db.connect()
-        c.execute(
-            "SELECT * FROM users WHERE username = ? LIMIT 1", (username,)
-        )
+        c.execute("SELECT * FROM users WHERE username = ? LIMIT 1", (username,))
         record = c.fetchone()
         db.disconnect()
         if record is None:

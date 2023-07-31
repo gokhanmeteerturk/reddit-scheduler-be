@@ -56,7 +56,10 @@ class UserManager:
         db = Database()
         c = db.connect()
         offset = (page - 1) * per_page
-        c.execute("SELECT * FROM users ORDER BY rowid ASC LIMIT ? OFFSET ?", (per_page, offset))
+        c.execute(
+            "SELECT * FROM users ORDER BY rowid ASC LIMIT ? OFFSET ?",
+            (per_page, offset),
+        )
         user_tuples = c.fetchall()
         db.disconnect()
 

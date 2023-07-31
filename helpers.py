@@ -3,9 +3,7 @@ class SingletonMeta(type):
 
     def __call__(cls, *args, **kwargs):
         if cls not in cls._members:
-            cls._members[cls] = super(SingletonMeta, cls).__call__(
-                *args, **kwargs
-            )
+            cls._members[cls] = super(SingletonMeta, cls).__call__(*args, **kwargs)
         return cls._members[cls]
 
 

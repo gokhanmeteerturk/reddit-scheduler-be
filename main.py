@@ -12,8 +12,18 @@ app = FastAPI()
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-app.include_router(users_router, prefix="/reddit_users", tags=["reddit_users"], dependencies=[Depends(get_remote_address)])
-app.include_router(scheduled_submissions_router, prefix="/scheduled_submissions", tags=["scheduled_submissions"], dependencies=[Depends(get_remote_address)])
+app.include_router(
+    users_router,
+    prefix="/reddit_users",
+    tags=["reddit_users"],
+    dependencies=[Depends(get_remote_address)],
+)
+app.include_router(
+    scheduled_submissions_router,
+    prefix="/scheduled_submissions",
+    tags=["scheduled_submissions"],
+    dependencies=[Depends(get_remote_address)],
+)
 
 
 @app.get("/init/")

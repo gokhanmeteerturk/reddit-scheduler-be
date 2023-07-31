@@ -1,6 +1,6 @@
-
 from fastapi import HTTPException
 from cursor import Database
+
 
 def remove_prefix(text, prefix):
     if text.startswith(prefix):
@@ -14,4 +14,3 @@ def check_key(request):
         remove_prefix(key, "Basic ")
     ):
         raise HTTPException(status_code=401, detail="Unauthorized")
-
