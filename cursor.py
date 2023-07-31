@@ -55,7 +55,7 @@ class Database(metaclass=SingletonMeta):
             )
         elif table_name == "submissions":
             c.execute(
-                "CREATE TABLE IF NOT EXISTS submissions(planned_unix_datetime integer, status text, username text, sub text, title text, text text, link text, image_name text, video text, flairid text, nsfw integer, submission_id text)"
+                "CREATE TABLE IF NOT EXISTS submissions(planned_unix_datetime integer, status text, username text, sub text, title text, text text, link text, image_name text, video text, flairid text, nsfw integer, submission_id text, crosspost_of integer)"
             )
         elif table_name == "auth":
             c.execute("CREATE TABLE IF NOT EXISTS auth(master_key text)")
