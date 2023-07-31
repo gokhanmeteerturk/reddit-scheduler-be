@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Request
-from typing import Type
+from typing import Type, Union
 
 from slowapi import Limiter
 from slowapi.util import get_remote_address
@@ -29,7 +29,7 @@ def list_reddit_users(request: Request, page: int = 1, per_page: int = 10):
     return result
 
 
-@router.get("/{username}/", response_model=Type[RedditUserPayload])
+@router.get("/{username}/", response_model=RedditUserPayloadWithCrosspostables)
 def read_reddit_user(username: str, request: Request, with_crosspostable_subs:bool = False):
     check_key(request)
     user = user_manager.read_user(username)
@@ -39,6 +39,7 @@ def read_reddit_user(username: str, request: Request, with_crosspostable_subs:bo
     if with_crosspostable_subs:
         crosspostable_subs = user_manager.read_crosspostable_subs(username)
     user = RedditUserPayloadWithCrosspostables.from_user_payload(user, crosspostable_subs)
+    print(user)
     return user
 
 
