@@ -2,6 +2,7 @@
 
 from cursor import Database
 from payloads import RedditUserPayload
+from reddit import RedditManager
 
 
 class UserManager:
@@ -29,6 +30,14 @@ class UserManager:
             return RedditUserPayload.from_tuple(user_tuple)
         else:
             return None
+
+    def read_crosspostable_subs(self, username: str):
+        reddit_manager = RedditManager()
+        reddit_manager.set_user("Fancy-Flight5692")
+        crosspostable_subs = reddit_manager.crosspostable_subs()
+        return crosspostable_subs
+
+
 
     def update_user(self, user: RedditUserPayload):
         db = Database()
