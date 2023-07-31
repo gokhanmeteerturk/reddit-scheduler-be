@@ -75,3 +75,4 @@ def list_reddit_scheduled_submissions(
 @repeat_every(seconds=30)
 def check_scheduled_submissions():
     submission_manager.check_scheduled_submissions()
+    
