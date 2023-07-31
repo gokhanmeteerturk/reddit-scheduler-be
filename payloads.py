@@ -12,6 +12,11 @@ class CustomBaseModel(BaseModel):
         return cls(**{k: v for k, v in zip(cls.__fields__.keys(), tpl)})
 
 
+class CrosspostRequestPayload(BaseModel):
+    sub: str
+    planned_unix_datetime: int | None = None
+
+
 class RedditUserPayload(CustomBaseModel):
     username: str
     password: str
@@ -52,8 +57,10 @@ class RedditPostPayload(CustomBaseModel):
     image_name: str | None = None
     video: str | None = None
     flairid: str | None = None
-    nsfw: bool | None = None
+    nsfw: bool | None = False
+    crosspost_of: int | None = None
     submission_id: str | None = None
+    crosspost_requests: List[CrosspostRequestPayload] = []
 
 
 class RedditPostsListPayload(BaseModel):

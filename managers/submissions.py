@@ -20,12 +20,42 @@ class SubmissionsManager:
                 submission.video,
                 submission.flairid,
                 submission.nsfw,
+                None, # crosspost_of,
                 submission.submission_id,
             ),
         )
+        submission_rowid = c.lastrowid
         db.connection.commit()
+
+        if submission.crosspost_requests:
+            self._handle_crosspost_requests(submission, submission_rowid)
+
         db.disconnect()
         return {"result": "Success"}
+
+    def _handle_crosspost_requests(self, submission: RedditPostPayload, submission_rowid: int):
+        for crosspost_request in submission.crosspost_requests:
+            db = Database()
+            c = db.connect()
+            c.execute(
+                "INSERT INTO submissions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    crosspost_request.planned_unix_datetime,
+                    "wait",  # initial status
+                    submission.username,
+                    crosspost_request.sub,
+                    submission.title,
+                    None,submission.text,
+                    None, # submission.link,
+                    None, # submission.image_name,
+                    None, # submission.video,
+                    None, # submission.flairid,
+                    submission.nsfw,
+                    submission_rowid,
+                    submission.submission_id,
+                ),
+            )
+        db.connection.commit()
 
     def read_submission(self, rowid: int):  # Update parameter name here
         db = Database()
@@ -58,6 +88,7 @@ class SubmissionsManager:
                 submission.video,
                 submission.flairid,
                 submission.nsfw,
+                None, # crosspost_of,
                 submission.submission_id,
                 submission.rowid,  # The rowid of the row you want to update
             ),
