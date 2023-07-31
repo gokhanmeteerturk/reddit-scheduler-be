@@ -53,23 +53,34 @@ class RedditManager:
             except:
                 return False
 
-    def create_submission(self):
-        sub, title, text, link, image, video, flairid, nsfw = None
+    def create_crosspost(self, parent_submission_id, target_sub):
         try:
-            if image == None and video == None:
+            submission = self.reddit.submission(parent_submission_id)
+            cross_post = submission.crosspost(target_sub)
+            return cross_post
+        except Exception as e:
+            return None
+
+    def create_submission(self, sub, title, text, link, image, video, flairid, nsfw):
+        try:
+            if image is None and video is None:
                 submission = self.reddit.subreddit(sub).submit(
                     title, selftext=text, url=link, flair_id=flairid, nsfw=nsfw
                 )
             else:
-                if video == None:
+                if video is None:
+                    image_dir = "./"
+                    image_path = image_dir + image
                     submission = self.reddit.subreddit(sub).submit_image(
-                        title, image_path=image, flair_id=flairid, nsfw=nsfw
+                        title, image_path=image_path, flair_id=flairid, nsfw=nsfw
                     )
                 else:
+                    image_dir = "./"
+                    video_dir = "./"
                     submission = self.reddit.subreddit(sub).submit_video(
                         title,
-                        video_path=video,
-                        thumbnail_path=image,
+                        video_path=video_dir+video,
+                        thumbnail_path=image_dir+image,
                         flair_id=flairid,
                         nsfw=nsfw,
                     )

@@ -5,6 +5,7 @@ import time
 
 from reddit import RedditManager
 
+
 class SubmissionsManager:
     def create_submission(self, submission: RedditPostPayload):
         db = Database()
@@ -23,8 +24,8 @@ class SubmissionsManager:
                 submission.video,
                 submission.flairid,
                 submission.nsfw,
-                None, # crosspost_of,
-                None, # submission_id
+                None,  # crosspost_of,
+                None,  # submission_id
             ),
         )
         submission_rowid = c.lastrowid
@@ -36,7 +37,11 @@ class SubmissionsManager:
         db.disconnect()
         return {"result": "Success"}
 
-    def _handle_crosspost_requests(self, parent_submission: RedditPostPayload, parent_submission_rowid: int):
+    def _handle_crosspost_requests(
+        self,
+        parent_submission: RedditPostPayload,
+        parent_submission_rowid: int,
+    ):
         for crosspost_request in parent_submission.crosspost_requests:
             db = Database()
             c = db.connect()
@@ -48,13 +53,14 @@ class SubmissionsManager:
                     parent_submission.username,
                     crosspost_request.sub,
                     parent_submission.title,
-                    None,parent_submission.text,
-                    None, # parent_submission.link,
-                    None, # parent_submission.image_name,
-                    None, # parent_submission.video,
-                    None, # parent_submission.flairid,
+                    None,
+                    parent_submission.text,
+                    None,  # parent_submission.link,
+                    None,  # parent_submission.image_name,
+                    None,  # parent_submission.video,
+                    None,  # parent_submission.flairid,
                     parent_submission.nsfw,
-                    parent_submission_rowid, # crosspost_of,
+                    parent_submission_rowid,  # crosspost_of,
                     parent_submission.submission_id,
                 ),
             )
@@ -130,6 +136,8 @@ class SubmissionsManager:
         return submissions
 
     def check_scheduled_submissions(self):
+        print("checked")
+        return
         try:
             db = Database()
             c = db.connect()
@@ -149,12 +157,13 @@ class SubmissionsManager:
         except Exception as e:
             print(e)
 
-    def _post_scheduled_submissions(self, submissions: List[RedditPostPayload]):
+    def _post_scheduled_submissions(
+        self, submissions: List[RedditPostPayload]
+    ):
         for submission in submissions:
             self._post_submission(submission)
 
     def _post_submission(self, submission: RedditPostPayload):
-        image_dir = "./"
         if submission.status == "wait":
             submission.status = "posting"
             self.update_submission(submission)
@@ -163,18 +172,30 @@ class SubmissionsManager:
                     reddit_manager = RedditManager()
                     reddit_manager.set_user(submission.username)
                     reddit_manager.create_submission(
-                        sub = submission.sub,
-                        title = submission.text,
-                        text = submission.text,
-                        link = submission.link,
-                        image = image_dir + submission.image_name,
-                        video = submission.video,
-                        flairid = submission.flairid,
-                        nsfw = bool(submission.nsfw)
+                        sub=submission.sub,
+                        title=submission.text,
+                        text=submission.text,
+                        link=submission.link,
+                        image=submission.image_name,
+                        video=submission.video,
+                        flairid=submission.flairid,
+                        nsfw=bool(submission.nsfw),
                     )
                 else:
                     # TODO: get original submission, and submit crosspost
-                    pass
+                    parent_submission = self.read_submission(
+                        rowid=submission.crosspost_of
+                    )
+                    if (
+                        parent_submission is not None
+                        and parent_submission.submission_id is not None
+                    ):
+                        reddit_manager = RedditManager()
+                        reddit_manager.set_user(submission.username)
+                        reddit_manager.create_crosspost(
+                            parent_submission_id=parent_submission.submission_id,
+                            target_sub=submission.sub,
+                        )
 
             except Exception as e:
                 print(e)
