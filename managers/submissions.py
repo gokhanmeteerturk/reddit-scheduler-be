@@ -7,7 +7,7 @@ class SubmissionsManager:
         db = Database()
         c = db.connect()
         c.execute(
-            "INSERT INTO submissions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO submissions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 submission.planned_unix_datetime,
                 "wait",  # initial status
@@ -21,7 +21,7 @@ class SubmissionsManager:
                 submission.flairid,
                 submission.nsfw,
                 None, # crosspost_of,
-                submission.submission_id,
+                None, # submission_id
             ),
         )
         submission_rowid = c.lastrowid
@@ -33,26 +33,26 @@ class SubmissionsManager:
         db.disconnect()
         return {"result": "Success"}
 
-    def _handle_crosspost_requests(self, submission: RedditPostPayload, submission_rowid: int):
-        for crosspost_request in submission.crosspost_requests:
+    def _handle_crosspost_requests(self, parent_submission: RedditPostPayload, parent_submission_rowid: int):
+        for crosspost_request in parent_submission.crosspost_requests:
             db = Database()
             c = db.connect()
             c.execute(
-                "INSERT INTO submissions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO submissions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     crosspost_request.planned_unix_datetime,
                     "wait",  # initial status
-                    submission.username,
+                    parent_submission.username,
                     crosspost_request.sub,
-                    submission.title,
-                    None,submission.text,
-                    None, # submission.link,
-                    None, # submission.image_name,
-                    None, # submission.video,
-                    None, # submission.flairid,
-                    submission.nsfw,
-                    submission_rowid,
-                    submission.submission_id,
+                    parent_submission.title,
+                    None,parent_submission.text,
+                    None, # parent_submission.link,
+                    None, # parent_submission.image_name,
+                    None, # parent_submission.video,
+                    None, # parent_submission.flairid,
+                    parent_submission.nsfw,
+                    parent_submission_rowid, # crosspost_of,
+                    parent_submission.submission_id,
                 ),
             )
         db.connection.commit()
@@ -88,7 +88,6 @@ class SubmissionsManager:
                 submission.video,
                 submission.flairid,
                 submission.nsfw,
-                None, # crosspost_of,
                 submission.submission_id,
                 submission.rowid,  # The rowid of the row you want to update
             ),
