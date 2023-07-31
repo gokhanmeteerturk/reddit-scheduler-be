@@ -259,7 +259,13 @@ curl -L 'http://127.0.0.1:8080/scheduled_submissions/' \
     "title": "New submission",
     "text": "Lorem ipsum dolor sit down",
     "flairid": null,
-    "nsfw": false
+    "nsfw": false,
+    "crosspost_requests":[
+        {
+            "sub":"EtsyMemes",
+            "planned_unix_datetime":1753877470
+        }
+    ]
 }'
 ```
 
