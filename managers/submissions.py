@@ -1,6 +1,9 @@
+from typing import List
 from cursor import Database
 from payloads import RedditPostPayload
+import time
 
+from reddit import RedditManager
 
 class SubmissionsManager:
     def create_submission(self, submission: RedditPostPayload):
@@ -128,7 +131,56 @@ class SubmissionsManager:
 
     def check_scheduled_submissions(self):
         try:
-            # Find and handle scheduled submissions
-            pass
+            db = Database()
+            c = db.connect()
+            c.execute(
+                "SELECT rowid, * FROM submissions WHERE status = 'wait' AND planned_unix_datetime <= ?",
+                (time.time(),),
+            )
+            submission_tuples = c.fetchall()
+            db.disconnect()
+
+            submissions = []
+            for submission_tuple in submission_tuples:
+                submission = RedditPostPayload.from_tuple(submission_tuple)
+                submissions.append(submission)
+
+            self._post_scheduled_submissions(submissions)
         except Exception as e:
             print(e)
+
+    def _post_scheduled_submissions(self, submissions: List[RedditPostPayload]):
+        for submission in submissions:
+            self._post_submission(submission)
+
+    def _post_submission(self, submission: RedditPostPayload):
+        image_dir = "./"
+        if submission.status == "wait":
+            submission.status = "posting"
+            self.update_submission(submission)
+            try:
+                if not submission.crosspost_of:
+                    reddit_manager = RedditManager()
+                    reddit_manager.set_user(submission.username)
+                    reddit_manager.create_submission(
+                        sub = submission.sub,
+                        title = submission.text,
+                        text = submission.text,
+                        link = submission.link,
+                        image = image_dir + submission.image_name,
+                        video = submission.video,
+                        flairid = submission.flairid,
+                        nsfw = bool(submission.nsfw)
+                    )
+                else:
+                    # TODO: get original submission, and submit crosspost
+                    pass
+
+            except Exception as e:
+                print(e)
+                submission.status = "error"
+                self.update_submission(submission)
+                return
+            submission.status = "posted"
+            # TODO: save created submission id as well.
+            self.update_submission(submission)
