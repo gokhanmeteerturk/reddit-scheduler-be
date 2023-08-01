@@ -2,6 +2,7 @@ from typing import List
 import praw
 
 from cursor import Database
+from settings import IMG_DIR
 
 
 class RedditManager:
@@ -69,18 +70,16 @@ class RedditManager:
                 )
             else:
                 if video is None:
-                    image_dir = "./"
-                    image_path = image_dir + image
+                    image_path = IMG_DIR + image
                     submission = self.reddit.subreddit(sub).submit_image(
                         title, image_path=image_path, flair_id=flairid, nsfw=nsfw
                     )
                 else:
-                    image_dir = "./"
                     video_dir = "./"
                     submission = self.reddit.subreddit(sub).submit_video(
                         title,
                         video_path=video_dir+video,
-                        thumbnail_path=image_dir+image,
+                        thumbnail_path=IMG_DIR+image,
                         flair_id=flairid,
                         nsfw=nsfw,
                     )
