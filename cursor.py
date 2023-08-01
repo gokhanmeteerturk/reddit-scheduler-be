@@ -1,13 +1,16 @@
 import sqlite3
 from helpers import SingletonMeta, constant_time_compare
-
+import settings
 
 class Database(metaclass=SingletonMeta):
     connection = None
 
     def connect(self):
         if self.connection is None:
-            self.connection = sqlite3.connect("db.sqlite3")
+            if settings.TESTING:
+                self.connection = sqlite3.connect("db_test.sqlite3")
+            else:
+                self.connection = sqlite3.connect("db.sqlite3")
             self.cursorobj = self.connection.cursor()
         return self.cursorobj
 
