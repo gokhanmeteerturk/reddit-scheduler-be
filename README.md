@@ -67,8 +67,10 @@ In case you still need a detailed documentation, below you can find a table show
 
 ## API Parameters, Payloads and Examples
 
+### 0. Axios Examples
 
-Sure, I'll format the entire text as requested:
+See [Examples For Axios](examples/axios.md).
+
 
 ### 1. Get all saved users
 <table>
