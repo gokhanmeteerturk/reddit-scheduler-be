@@ -136,7 +136,6 @@ class SubmissionsManager:
         return submissions
 
     def check_scheduled_submissions(self):
-        print("checked")
         return
         try:
             db = Database()
