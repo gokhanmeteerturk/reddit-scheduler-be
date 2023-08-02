@@ -1,24 +1,42 @@
+from ast import List
+import glob
 import os
 import shutil
-from fastapi import Depends, FastAPI, File, HTTPException, Request, UploadFile
+from typing import Optional
+from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, UploadFile
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
+from settings import ALLOWED_IMG_EXTENSIONS, IMG_DIR
 
 from viewsets.users import router as users_router
 from viewsets.scheduled_submissions import router as scheduled_submissions_router
 from viewsets.helpers import check_key, is_valid_image, generate_unique_filename, is_valid_video, save_image, save_video, validate_img_extension, validate_img_size
 
-from starlette_validation_uploadfile import ValidateUploadFileMiddleware
 
 
 
 limiter = Limiter(key_func=get_remote_address)
-app = FastAPI()
+app = FastAPI(middleware=[
+    Middleware(CORSMiddleware, allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],)
+])
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 app.include_router(
     users_router,
@@ -68,6 +86,33 @@ async def upload_video(request: Request, file: UploadFile = File(...)):
 
     return {"filename": new_filename}
 """
+
+
+
+def list_images(
+    page: int = Query(1, ge=1),
+    per_page: int = Query(100, ge=1),
+):
+    images = [f for f in glob.glob(os.path.join(IMG_DIR, "*")) if not os.path.basename(f).startswith("thumb_") and os.path.splitext(f)[-1][1:].lower() in ALLOWED_IMG_EXTENSIONS]
+
+    images.sort(key=os.path.getmtime, reverse=True)
+    images = [i.replace("\\", "/").replace(IMG_DIR, "") for i in images]
+
+    # Pagination
+    start_idx = (page - 1) * per_page
+    end_idx = start_idx + per_page
+    paginated_images = images[start_idx:end_idx]
+
+    return {"results": paginated_images}
+
+@app.get("/list_images/")
+def get_images(
+    request: Request,
+    page: Optional[int] = Query(1, ge=1),
+    per_page: Optional[int] = Query(100, ge=1),
+):
+    check_key(request)
+    return list_images(page=page, per_page=per_page)
 
 @app.get("/init/")
 @limiter.limit("5/minute")

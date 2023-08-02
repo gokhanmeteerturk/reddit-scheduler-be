@@ -2,6 +2,7 @@ IMG_DIR="./images/"
 VIDEO_DIR = "./videos/"
 
 TESTING = False
+DEBUG = True
 
 IMG_MAX_FILE_SIZE = 20 * 1024 * 1024  # 20 MB in bytes
 VIDEO_MAX_FILE_SIZE = 20 * 1024 * 1024  # 20 MB in bytes

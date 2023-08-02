@@ -6,7 +6,7 @@ from PIL import Image
 from hashids import Hashids
 import time
 
-from settings import ALLOWED_IMG_EXTENSIONS, IMG_DIR, IMG_MAX_FILE_SIZE, VIDEO_DIR
+from settings import ALLOWED_IMG_EXTENSIONS, DEBUG, IMG_DIR, IMG_MAX_FILE_SIZE, VIDEO_DIR
 
 
 def remove_prefix(text, prefix):
@@ -16,6 +16,8 @@ def remove_prefix(text, prefix):
 
 
 def check_key(request):
+    if DEBUG:
+        return True
     key = request.headers.get("authorization")
     if key is None or not Database().is_master_key_correct(
         remove_prefix(key, "Basic ")
