@@ -24,7 +24,9 @@ axios.get('http://127.0.0.1:8080/reddit_users/', {
   headers: {
     Authorization: 'Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA',
   },
-});
+})
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error));
 ```
 
 </td>
@@ -55,7 +57,9 @@ axios.get('http://127.0.0.1:8080/reddit_users/spez/', {
   headers: {
     Authorization: 'Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA',
   },
-});
+})
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error));
 ```
 
 </td>
@@ -92,7 +96,9 @@ axios.post('http://127.0.0.1:8080/reddit_users/', {
     Authorization: 'Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA',
     'Content-Type': 'application/json',
   },
-});
+})
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error));
 ```
 
 </td>
@@ -129,7 +135,9 @@ axios.put('http://127.0.0.1:8080/reddit_users/spez/', {
     Authorization: 'Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA',
     'Content-Type': 'application/json',
   },
-});
+})
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error));
 ```
 
 </td>
@@ -160,7 +168,9 @@ axios.delete('http://127.0.0.1:8080/reddit_users/spez/', {
   headers: {
     Authorization: 'Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA',
   },
-});
+})
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error));
 ```
 
 </td>
@@ -191,7 +201,9 @@ axios.get('http://127.0.0.1:8080/scheduled_submissions/', {
   headers: {
     Authorization: 'Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA',
   },
-});
+})
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error));
 ```
 
 </td>
@@ -235,7 +247,9 @@ axios.post('http://127.0.0.1:8080/scheduled_submissions/', {
     Authorization: 'Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA',
     'Content-Type': 'application/json',
   },
-});
+})
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error));
 ```
 
 </td>
@@ -266,7 +280,9 @@ axios.get('http://127.0.0.1:8080/scheduled_submissions/1/', {
   headers: {
     Authorization: 'Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA',
   },
-});
+})
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error));
 ```
 
 </td>
@@ -306,7 +322,9 @@ axios.put('http://127.0.0.1:8080/scheduled_submissions/1/', {
     Authorization: 'Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA',
     'Content-Type': 'application/json',
   },
-});
+})
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error));
 ```
 
 </td>
@@ -337,7 +355,9 @@ axios.delete('http://127.0.0.1:8080/scheduled_submissions/1/', {
   headers: {
     Authorization: 'Basic cAebyYIUtX-3urYrp05_GlxtrVgLUKX7rQxDBdG5mGA',
   },
-});
+})
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error));
 ```
 
 </td>
