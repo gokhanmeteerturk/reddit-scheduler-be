@@ -71,8 +71,12 @@ def save_video(video, filename):
         shutil.copyfileobj(video.file, video_file)
 
 def generate_unique_filename(original_filename):
-    hashids = Hashids(salt="your_salt_here", min_length=8)
+    import string
+    import secrets
+    alphabet = string.ascii_letters + string.digits
+    latest = ''.join(secrets.choice(alphabet) for i in range(3))
+    hashids = Hashids(salt="adgad561a6dg5ad", min_length=8)
     timestamp = int(time.time())
     hashid = hashids.encode(timestamp)
     _, extension = os.path.splitext(original_filename)
-    return f"{hashid}{extension}"
+    return f"{hashid}{latest}{extension}"
