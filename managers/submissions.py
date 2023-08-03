@@ -1,6 +1,6 @@
 from typing import List
 from cursor import Database
-from payloads import RedditPostPayload
+from payloads import CrosspostRequestPayload, RedditPostPayload
 import time
 
 from reddit import RedditManager
@@ -10,6 +10,12 @@ class SubmissionsManager:
     def create_submission(self, submission: RedditPostPayload):
         db = Database()
         c = db.connect()
+        if not submission.image_name:
+            submission.image_name = None
+        if not submission.link:
+            submission.link = None
+        if not submission.text:
+            submission.text = None
         c.execute(
             "INSERT INTO submissions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
@@ -24,8 +30,8 @@ class SubmissionsManager:
                 submission.video,
                 submission.flairid,
                 submission.nsfw,
-                None,  # crosspost_of,
-                None,  # submission_id
+                None,  # submission_id,
+                None,  # crosspost_of
             ),
         )
         submission_rowid = c.lastrowid
@@ -53,15 +59,14 @@ class SubmissionsManager:
                     parent_submission.username,
                     crosspost_request.sub,
                     parent_submission.title,
-                    None,
                     parent_submission.text,
                     None,  # parent_submission.link,
                     None,  # parent_submission.image_name,
                     None,  # parent_submission.video,
                     None,  # parent_submission.flairid,
                     parent_submission.nsfw,
-                    parent_submission_rowid,  # crosspost_of,
                     parent_submission.submission_id,
+                    parent_submission_rowid,  # crosspost_of,
                 ),
             )
         db.connection.commit()
@@ -118,21 +123,42 @@ class SubmissionsManager:
         return {"result": "Success"}
 
     def list_submissions(self, page: int = 1, per_page: int = 10):
+
         db = Database()
         c = db.connect()
         offset = (page - 1) * per_page
         c.execute(
-            "SELECT rowid, * FROM submissions ORDER BY rowid ASC LIMIT ? OFFSET ?",  # Update the query
+            "SELECT rowid, * FROM submissions WHERE crosspost_of IS NULL ORDER BY rowid ASC LIMIT ? OFFSET ?",  # Update the query
             (per_page, offset),
         )
         submission_tuples = c.fetchall()
         db.disconnect()
-
+        sub_rowids = []
         submissions = []
+        submissions_by_rowid = {}
         for submission_tuple in submission_tuples:
             submission = RedditPostPayload.from_tuple(submission_tuple)
-            submissions.append(submission)
+            submissions_by_rowid[submission.rowid] = submission
 
+        sub_rowids = list(submissions_by_rowid.keys())
+
+        if len(sub_rowids)>0:
+            sql="select rowid, * from submissions where crosspost_of in ({seq}) LIMIT 900".format(
+                seq=','.join(['?']*len(sub_rowids)))
+            c = db.connect()
+            c.execute(
+                sql,
+                sub_rowids,
+            )
+            crosspost_submission_tuples = c.fetchall()
+            db.disconnect()
+
+            for crosspost_submission_tuple in crosspost_submission_tuples:
+                crosspost_submission = RedditPostPayload.from_tuple(crosspost_submission_tuple)
+                crosspost_request = CrosspostRequestPayload(sub=crosspost_submission.sub, planned_unix_datetime=crosspost_submission.planned_unix_datetime)
+                submissions_by_rowid[crosspost_submission.crosspost_of].crosspost_requests.append(crosspost_request)
+
+        submissions = list(submissions_by_rowid.values())
         return submissions
 
     def check_scheduled_submissions(self):

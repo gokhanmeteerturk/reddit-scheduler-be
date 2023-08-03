@@ -58,8 +58,8 @@ class RedditPostPayload(CustomBaseModel):
     video: str | None = None
     flairid: str | None = None
     nsfw: bool | None = False
-    crosspost_of: int | None = None
     submission_id: str | None = None
+    crosspost_of: int | None = None
     crosspost_requests: List[CrosspostRequestPayload] = []
 
 

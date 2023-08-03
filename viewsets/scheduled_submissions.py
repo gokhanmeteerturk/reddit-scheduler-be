@@ -17,6 +17,7 @@ submission_manager = SubmissionsManager()
 @limiter.limit("100/minute")
 def create_reddit_scheduled_submission(submission: RedditPostPayload, request: Request):
     check_key(request)
+    print(submission)
     return submission_manager.create_submission(submission)
 
 
