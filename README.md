@@ -20,6 +20,7 @@ Just clone the repo, create a python environment and install the dependencies:
 First, run the server:
 `uvicorn main:app --port 8080 --reload`
 
+
 Get your master key by sending a GET request to:
 
     http://127.0.0.1:8080/init/

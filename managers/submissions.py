@@ -51,6 +51,7 @@ class SubmissionsManager:
         for crosspost_request in parent_submission.crosspost_requests:
             db = Database()
             c = db.connect()
+
             c.execute(
                 "INSERT INTO submissions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
@@ -123,7 +124,6 @@ class SubmissionsManager:
         return {"result": "Success"}
 
     def list_submissions(self, page: int = 1, per_page: int = 10):
-
         db = Database()
         c = db.connect()
         offset = (page - 1) * per_page
@@ -142,9 +142,10 @@ class SubmissionsManager:
 
         sub_rowids = list(submissions_by_rowid.keys())
 
-        if len(sub_rowids)>0:
-            sql="select rowid, * from submissions where crosspost_of in ({seq}) LIMIT 900".format(
-                seq=','.join(['?']*len(sub_rowids)))
+        if len(sub_rowids) > 0:
+            sql = "select rowid, * from submissions where crosspost_of in ({seq}) LIMIT 900".format(
+                seq=",".join(["?"] * len(sub_rowids))
+            )
             c = db.connect()
             c.execute(
                 sql,
@@ -154,9 +155,16 @@ class SubmissionsManager:
             db.disconnect()
 
             for crosspost_submission_tuple in crosspost_submission_tuples:
-                crosspost_submission = RedditPostPayload.from_tuple(crosspost_submission_tuple)
-                crosspost_request = CrosspostRequestPayload(sub=crosspost_submission.sub, planned_unix_datetime=crosspost_submission.planned_unix_datetime)
-                submissions_by_rowid[crosspost_submission.crosspost_of].crosspost_requests.append(crosspost_request)
+                crosspost_submission = RedditPostPayload.from_tuple(
+                    crosspost_submission_tuple
+                )
+                crosspost_request = CrosspostRequestPayload(
+                    sub=crosspost_submission.sub,
+                    planned_unix_datetime=crosspost_submission.planned_unix_datetime,
+                )
+                submissions_by_rowid[
+                    crosspost_submission.crosspost_of
+                ].crosspost_requests.append(crosspost_request)
 
         submissions = list(submissions_by_rowid.values())
         return submissions
