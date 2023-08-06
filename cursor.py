@@ -10,7 +10,7 @@ class Database(metaclass=SingletonMeta):
             if settings.TESTING:
                 self.connection = sqlite3.connect("db_test.sqlite3")
             else:
-                self.connection = sqlite3.connect("db.sqlite3")
+                self.connection = sqlite3.connect("db/db.sqlite3")
             self.cursorobj = self.connection.cursor()
         return self.cursorobj
 

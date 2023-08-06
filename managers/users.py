@@ -33,7 +33,7 @@ class UserManager:
 
     def read_crosspostable_subs(self, username: str):
         reddit_manager = RedditManager()
-        reddit_manager.set_user("Fancy-Flight5692")
+        reddit_manager.set_user(username)
         crosspostable_subs = reddit_manager.crosspostable_subs()
         return crosspostable_subs
 

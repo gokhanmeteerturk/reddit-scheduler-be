@@ -170,7 +170,6 @@ class SubmissionsManager:
         return submissions
 
     def check_scheduled_submissions(self):
-        return
         try:
             db = Database()
             c = db.connect()
@@ -194,6 +193,7 @@ class SubmissionsManager:
         self, submissions: List[RedditPostPayload]
     ):
         for submission in submissions:
+            print("trying to post a submission. Title: " + submission.title)
             self._post_submission(submission)
 
     def _post_submission(self, submission: RedditPostPayload):
@@ -204,9 +204,9 @@ class SubmissionsManager:
                 if not submission.crosspost_of:
                     reddit_manager = RedditManager()
                     reddit_manager.set_user(submission.username)
-                    reddit_manager.create_submission(
+                    submission_id = reddit_manager.create_submission(
                         sub=submission.sub,
-                        title=submission.text,
+                        title=submission.title,
                         text=submission.text,
                         link=submission.link,
                         image=submission.image_name,
@@ -214,6 +214,8 @@ class SubmissionsManager:
                         flairid=submission.flairid,
                         nsfw=bool(submission.nsfw),
                     )
+                    submission.submission_id = submission_id
+                    self.update_submission(submission)
                 else:
                     # TODO: get original submission, and submit crosspost
                     parent_submission = self.read_submission(

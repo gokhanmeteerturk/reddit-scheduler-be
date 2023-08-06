@@ -4,6 +4,7 @@ import os
 import shutil
 from typing import Optional
 from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, UploadFile
+import requests
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -53,6 +54,36 @@ app.include_router(
 )
 
 app.mount("/images", StaticFiles(directory="images"), name="images")
+
+
+@app.post("/download_image/")
+async def download_image(image_url: str):
+    from PIL import Image
+    # Check if the provided URL matches the expected format
+    if not image_url.startswith("https://i.redd.it/") or (not image_url.endswith(".jpg") and not image_url.endswith(".png")):
+        return {"error": "Invalid image URL. It should be in the format: https://i.redd.it/{slug}.jpg"}
+
+    try:
+        # Download the image from the provided URL
+        response = requests.get(image_url)
+        response.raise_for_status()
+
+        filename = generate_unique_filename(image_url.split("/")[-1])
+
+        with open(os.path.join(IMG_DIR, filename), "wb") as f:
+            f.write(response.content)
+
+        # Generate and save the thumbnail
+        thumbnail_filename = f"thumb_{filename}"
+        image = Image.open(os.path.join(IMG_DIR, filename))
+        thumbnail = image.copy()
+        thumbnail.thumbnail((96, 96))
+        thumbnail.save(os.path.join(IMG_DIR, thumbnail_filename))
+
+        return {"filename": filename}
+    except requests.exceptions.RequestException as e:
+        return {"error": f"Failed to download image: {e}"}
+
 
 @app.post("/upload_image/")
 async def upload_image(request: Request, file: UploadFile):
