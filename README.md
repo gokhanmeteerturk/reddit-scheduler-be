@@ -1,19 +1,21 @@
 # reddit-scheduler-be
 A very convenient reddit scheduler backend with support for multiple credentials
 
-## WARNING: WORK IN PROGRESS
 ## Development Status
 
 - [x] ~~CRUD operations for owned Reddit user credentials~~
 - [x] ~~CRUD operations for scheduling submissions~~
 - [x] ~~Repeating task to trigger submissions on scheduled date~~
-- [ ] Dockerization of the project (Work in progress)
-- [ ] SSL support (Not started)
+- [x] Dockerization of the project (Work in progress)
+- [x] SSL support (now possible via nginx proxy etc)
 
 
 ## Installation
 Just clone the repo, create a python environment and install the dependencies:
 `pip install -r requirements.txt`
+
+Or use Docker:
+`docker compose up -d`
 
 ## Setup
 
