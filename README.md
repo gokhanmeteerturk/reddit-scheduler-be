@@ -41,7 +41,6 @@ Once created, you won't be able to view your master key again. Following request
 # Usage
 
 API is simple and follows REST best practices. You will need to send a request with a valid master key in the "Authorization" header.
-
 In case you still need a detailed documentation, below you can find a table showcasing the endpoints and their corresponding HTTP methods. As well as the examples of how to use the API for each endpoint.
 
 ---
@@ -49,6 +48,7 @@ In case you still need a detailed documentation, below you can find a table show
 ## API Endpoints
 
 ### Users
+
 | Endpoint | HTTP Method | Description |
 | --- | --- | --- |
 | reddit_users/ | ![GET](https://img.shields.io/badge/GET-blue?style=flat-square)  | Get all saved users |
@@ -58,6 +58,7 @@ In case you still need a detailed documentation, below you can find a table show
 | reddit_users/{USER}/ | ![DELETE](https://img.shields.io/badge/DELETE-firebrick?style=flat-square) | Delete a user |
 
 ### Submissions
+
 | Endpoint | HTTP Method | Description |
 | --- | --- | --- |
 | scheduled_submissions/ | ![GET](https://img.shields.io/badge/GET-blue?style=flat-square) | Get all scheduled submissions |
@@ -76,6 +77,7 @@ See [Examples For Axios](examples/axios.md).
 
 
 ### 1. Get all saved users
+
 <table>
   <tr>
     <th>HTTP Method</th>
@@ -103,6 +105,7 @@ curl -L 'http://127.0.0.1:8080/reddit_users/?page=1&per_page=10' \
 </table>
 
 ### 2. Get specific user
+
 <table>
   <tr>
     <th>HTTP Method</th>
@@ -130,6 +133,7 @@ curl -L 'http://127.0.0.1:8080/reddit_users/spez/' \
 </table>
 
 ### 3. Create a new user
+
 <table>
   <tr>
     <th>HTTP Method</th>
@@ -160,6 +164,7 @@ curl -L 'http://127.0.0.1:8080/reddit_users/' \
 </table>
 
 ### 4. Update user information
+
 <table>
   <tr>
     <th>HTTP Method</th>
@@ -190,6 +195,7 @@ curl -L -X PUT 'http://127.0.0.1:8080/reddit_users/spez/' \
 </table>
 
 ### 5. Delete a user
+
 <table>
   <tr>
     <th>HTTP Method</th>
@@ -213,6 +219,7 @@ curl -L -X DELETE 'http://127.0.0.1:8080/reddit_users/spez/' \
 </table>
 
 ### 6. Get all scheduled submissions
+
 <table>
   <tr>
     <th>HTTP Method</th>
@@ -240,6 +247,7 @@ curl -L 'http://127.0.0.1:8080/scheduled_submissions/?page=1&per_page=10' \
 </table>
 
 ### 7. Schedule a new submission
+
 <table>
   <tr>
     <th>HTTP Method</th>
@@ -279,6 +287,7 @@ curl -L 'http://127.0.0.1:8080/scheduled_submissions/' \
 </table>
 
 ### 8. Get details of a specific submission
+
 <table>
   <tr>
     <th>HTTP Method</th>
@@ -302,6 +311,7 @@ curl -L 'http://127.0.0.1:8080/scheduled_submissions/1/' \
 </table>
 
 ### 9. Update a scheduled submission
+
 <table>
   <tr>
     <th>HTTP Method</th>
@@ -337,6 +347,7 @@ curl -L -X PUT 'http://127.0.0.1:8080/scheduled_submissions/1/' \
 </table>
 
 ### 10. Delete a scheduled submission
+
 <table>
   <tr>
     <th>HTTP Method</th>
