@@ -1,4 +1,4 @@
-# reddit-scheduler-be
+# Reddit Scheduler Backend
 A very convenient reddit scheduler backend with support for multiple credentials
 
 ## Development Status
@@ -6,8 +6,8 @@ A very convenient reddit scheduler backend with support for multiple credentials
 - [x] ~~CRUD operations for owned Reddit user credentials~~
 - [x] ~~CRUD operations for scheduling submissions~~
 - [x] ~~Repeating task to trigger submissions on scheduled date~~
-- [x] Dockerization of the project (Work in progress)
-- [x] SSL support (now possible via nginx proxy etc)
+- [x] ~~Dockerization of the project (Work in progress)~~
+- [x] ~~SSL support (now possible via nginx proxy etc)~~
 
 
 ## Installation
